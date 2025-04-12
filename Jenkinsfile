@@ -20,13 +20,13 @@ pipeline { //pipeline as code - Jenkinsfile
         }
         stage("Build Docker Image"){
             steps{
-                sh "docker build -t snakeWebimg ."
+                sh "docker build -t snakewebimg ."
             }
         }
         stage("Deployment"){
             steps{
                 sh "docker rm -f webos"
-                sh "docker run -dit --name webos -p 5000:3000 snakeWebimg"
+                sh "docker run -dit --name webos -p 5000:3000 snakewebimg"
             }
         }
     }

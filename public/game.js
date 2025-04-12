@@ -1,12 +1,14 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Increased canvas height to accommodate the score box outside the game zone
 const canvasWidth = 500;
-const canvasHeight = 550; // Increased height
-const numberOfCells = 25; 
-const cellSize = Math.floor(canvasWidth / numberOfCells); // Calculate cell size
-const OFFSET = 0; 
+const numberOfCells = 25;
+const cellSize = Math.floor(canvasWidth / numberOfCells);
+const scoreBoxHeight = 80; // space reserved for the score
+const canvasHeight = numberOfCells * cellSize + scoreBoxHeight;
+
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 
 const GREEN = 'rgb(173, 204, 96)';
 const DARK_GREEN = 'rgb(43, 51, 24)';
@@ -17,35 +19,33 @@ let food = generateRandomPos();
 let score = 0;
 let gameInterval;
 
-// Load sounds
 const eatSound = new Audio('/static/static_eat.mp3');
 const wallHitSound = new Audio('/static/wall.mp3');
 
-// Adjust the canvas height and draw the score box outside the game area
-canvas.height = canvasHeight;
-
 function draw() {
-    // Draw the game area (playfield)
-    ctx.fillStyle = GREEN;
-    ctx.fillRect(0, 80, canvasWidth, canvasHeight - 80); // Leave 50px space at the top for the score box
-
-    ctx.fillStyle = DARK_GREEN;
-    snake.forEach(segment => {
-        ctx.fillRect(OFFSET + segment.x * cellSize, 50 + OFFSET + segment.y * cellSize, cellSize, cellSize); // Adjust y position
-    });
-
-    ctx.fillStyle = 'red';
-    ctx.fillRect(OFFSET + food.x * cellSize, 50 + OFFSET + food.y * cellSize, cellSize, cellSize); // Adjust y position
-
-    // Draw score box outside the game zone
+    // Draw score area
     ctx.fillStyle = 'white';
-    ctx.fillRect(OFFSET - 10, 10, canvasWidth, 50); // Score box at the top
+    ctx.fillRect(0, 0, canvasWidth, scoreBoxHeight);
 
     ctx.fillStyle = DARK_GREEN;
     ctx.font = '40px Arial';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.fillText(`Score: ${score}`, OFFSET, 20);  // Adjusted Y position for score
+    ctx.fillText(`Score: ${score}`, 10, 20);
+
+    // Draw game zone (green)
+    ctx.fillStyle = GREEN;
+    ctx.fillRect(0, scoreBoxHeight, canvasWidth, canvasHeight - scoreBoxHeight);
+
+    // Draw snake
+    ctx.fillStyle = DARK_GREEN;
+    snake.forEach(segment => {
+        ctx.fillRect(segment.x * cellSize, scoreBoxHeight + segment.y * cellSize, cellSize, cellSize);
+    });
+
+    // Draw food
+    ctx.fillStyle = 'red';
+    ctx.fillRect(food.x * cellSize, scoreBoxHeight + food.y * cellSize, cellSize, cellSize);
 }
 
 function update() {
@@ -58,15 +58,17 @@ function update() {
     if (head.x === food.x && head.y === food.y) {
         score++;
         food = generateRandomPos();
-        eatSound.play(); // Play eat sound
+        eatSound.play();
     } else {
         snake.pop();
     }
 
-    // Collision detection (if snake hits walls or itself)
-    if (head.x < 0 || head.x >= numberOfCells || head.y < 0 || head.y >= numberOfCells || 
-        snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
-        wallHitSound.play(); // Play wall hit sound
+    if (
+        head.x < 0 || head.x >= numberOfCells ||
+        head.y < 0 || head.y >= numberOfCells ||
+        snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)
+    ) {
+        wallHitSound.play();
         clearInterval(gameInterval);
         alert('Game Over!');
     }
@@ -77,9 +79,9 @@ function update() {
 function generateRandomPos() {
     let pos;
     do {
-        pos = { 
-            x: Math.floor(Math.random() * numberOfCells), 
-            y: Math.floor(Math.random() * numberOfCells) 
+        pos = {
+            x: Math.floor(Math.random() * numberOfCells),
+            y: Math.floor(Math.random() * numberOfCells)
         };
     } while (snake.some(segment => segment.x === pos.x && segment.y === pos.y));
     return pos;

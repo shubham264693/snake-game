@@ -12,7 +12,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('index'); // index.ejs should contain "GFG Game"
+  res.render('index'); // index.ejs should contain "Snake Game"
 });
 
 // Only listen when not in test

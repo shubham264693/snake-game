@@ -15,6 +15,10 @@ app.get('/', (req, res) => {
   res.render('index'); // index.ejs should contain "Snake Game"
 });
 
+app.get('/healthCheck',(res,res)=>{
+    return res.statusCode(200).json({ message : "Health Check added"})
+})
+
 // Only listen when not in test
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;

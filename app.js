@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/healthCheck',(res,res)=>{
-    return res.statusCode(200).json({ message : "Health Check added"})
+    return res.status(200).json({ message : "Health Check added"})
 })
 
 // Only listen when not in test

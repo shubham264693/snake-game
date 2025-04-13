@@ -1,1 +1,11 @@
 -This is basic snake-game application which is deployed using jenkins and git-hub webhooks
+
+-Within this deployment process we have created two ec2-servres
+
+- both ec2 with t2.medium and 15 gb of storage
+
+- fist one will become our master node where jenkins web server will be running
+
+- second one will be worker node where our all the jobs will be running
+
+- Here we have setup the jenkins agent on worker node so it can run the jobs which are created by the master node

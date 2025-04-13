@@ -8,6 +8,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files
+// Express servers file from static folder so remember whenever you want to serve static files keep them into public folder
+// and which file or anything your using using pass /static infront of path
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Routes

@@ -12,7 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 // and which file or anything your using using pass /static infront of path
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-// Routes
+// Routes ejs rendering
 app.get('/', (req, res) => {
   res.render('index'); // index.ejs should contain "Snake Game"
 });

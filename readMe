@@ -9,3 +9,5 @@
 - second one will be worker node where our all the jobs will be running
 
 - Here we have setup the jenkins agent on worker node so it can run the jobs which are created by the master node
+
+- After this process we will be creating the dynamic worker node using dokcer which will be deleted after running jobs

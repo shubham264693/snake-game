@@ -13,6 +13,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Routes ejs rendering
+// Added test comment to check jenkins auto build
 app.get('/', (req, res) => {
   res.render('index'); // index.ejs should contain "Snake Game"
 });
